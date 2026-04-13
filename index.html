@@ -401,11 +401,47 @@ body {
 .info-row .label { color: rgba(253,246,236,0.45); }
 .info-row .val { color: var(--paper); font-weight: 500; }
 
-/* PWA INSTALL */
+/* PWA INSTALL BANNER */
+#install-banner {
+  position: fixed; bottom: 64px; left: 12px; right: 12px; z-index: 200;
+  background: linear-gradient(135deg, rgba(26,10,10,0.97), rgba(44,20,10,0.97));
+  border: 1px solid rgba(201,168,76,0.45);
+  border-radius: 16px;
+  padding: 14px 16px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: none;
+  animation: slideUp 0.35s ease;
+}
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+#install-banner .banner-title {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--gold);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+#install-banner .banner-steps {
+  color: rgba(253,246,236,0.75);
+  font-size: 12px;
+  line-height: 1.8;
+}
+#install-banner .banner-steps b { color: var(--paper); }
+#install-banner .banner-close {
+  position: absolute; top: 10px; right: 12px;
+  background: none; border: none;
+  color: rgba(253,246,236,0.4); font-size: 18px; cursor: pointer;
+  line-height: 1;
+}
+#install-banner .banner-close:hover { color: var(--paper); }
 #install-btn {
   display: none;
-  position: fixed; bottom: 90px; right: 16px; z-index: 200;
-  padding: 12px 18px;
+  position: fixed; bottom: 74px; left: 50%; transform: translateX(-50%); z-index: 200;
+  padding: 12px 24px;
   background: var(--gold);
   color: var(--ink);
   border: none;
@@ -416,8 +452,9 @@ body {
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(201,168,76,0.4);
   transition: all 0.2s;
+  white-space: nowrap;
 }
-#install-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.5); }
+#install-btn:hover { transform: translateX(-50%) translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.5); }
 
 /* SCROLL to top */
 .scroll-hint {
@@ -1324,8 +1361,15 @@ body {
   </div>
 </div>
 
-<!-- PWA INSTALL BUTTON -->
-<button id="install-btn">📲 加入主畫面</button>
+<!-- PWA INSTALL BUTTON (Android Chrome) -->
+<button id="install-btn">📲 安裝至主畫面</button>
+
+<!-- PWA INSTALL BANNER (manual guide) -->
+<div id="install-banner">
+  <button class="banner-close" onclick="document.getElementById('install-banner').style.display='none'">×</button>
+  <div class="banner-title" id="banner-title">📲 加入主畫面</div>
+  <div class="banner-steps" id="banner-steps"></div>
+</div>
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
@@ -1385,21 +1429,82 @@ function showDay(n) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// PWA Install
+// Detect platform
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isAndroid = /android/i.test(navigator.userAgent);
+const isInStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+const banner = document.getElementById('install-banner');
+const bannerSteps = document.getElementById('banner-steps');
+const bannerTitle = document.getElementById('banner-title');
+const installBtn = document.getElementById('install-btn');
+
+// Show install guide button in info panel always
+function showInstallGuide() {
+  if (isInStandaloneMode) return; // already installed
+
+  if (isIOS) {
+    bannerTitle.textContent = '📲 加入 iPhone 主畫面';
+    bannerSteps.innerHTML = `
+      <b>1.</b> 點底部的 <b>分享</b> 按鈕（□↑）<br>
+      <b>2.</b> 向下滑，點選 <b>「加入主畫面」</b><br>
+      <b>3.</b> 點右上角 <b>「新增」</b> 完成安裝
+    `;
+    banner.style.display = 'block';
+  } else if (isAndroid) {
+    bannerTitle.textContent = '📲 加入 Android 主畫面';
+    bannerSteps.innerHTML = `
+      <b>1.</b> 點右上角 <b>⋮ 選單</b><br>
+      <b>2.</b> 點選 <b>「新增至主畫面」</b><br>
+      <b>3.</b> 點 <b>「新增」</b> 完成安裝
+    `;
+    banner.style.display = 'block';
+  } else {
+    // Desktop: show in address bar or via button
+    bannerTitle.textContent = '💻 安裝至電腦';
+    bannerSteps.innerHTML = `
+      點瀏覽器網址列右側的 <b>安裝 ⊕</b> 圖示，<br>
+      或選單中的 <b>「安裝應用程式」</b>
+    `;
+    banner.style.display = 'block';
+  }
+}
+
+// Android Chrome native prompt
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById('install-btn').style.display = 'block';
+  installBtn.style.display = 'block';
+  banner.style.display = 'none'; // hide manual guide if native prompt available
 });
-document.getElementById('install-btn').addEventListener('click', async () => {
+installBtn.addEventListener('click', async () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') document.getElementById('install-btn').style.display = 'none';
+    if (outcome === 'accepted') installBtn.style.display = 'none';
     deferredPrompt = null;
   }
 });
+
+// Show guide after short delay
+if (!isInStandaloneMode) {
+  setTimeout(showInstallGuide, 1500);
+}
+
+// Info panel install button
+document.getElementById('info-panel').insertAdjacentHTML('beforeend', `
+  <div class="info-card" style="text-align:center">
+    <h3>安裝至主畫面</h3>
+    <p style="color:rgba(253,246,236,0.6);font-size:13px;margin-bottom:14px;line-height:1.8">
+      安裝後可離線使用，<br>開啟速度更快，體驗更好
+    </p>
+    <button onclick="showInstallGuide(); document.getElementById('install-banner').style.display='block';"
+      style="padding:10px 24px;background:var(--gold);color:var(--ink);border:none;border-radius:20px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer">
+      📲 查看安裝步驟
+    </button>
+  </div>
+`);
 
 // Register Service Worker
 if ('serviceWorker' in navigator) {
