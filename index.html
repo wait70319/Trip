@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="日本行程">
+<meta name="description" content="2026 日本旅行行程 - 熊本 × 福岡">
+<title>🗾 日本行程 2026</title>
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Zen+Old+Mincho:wght@400;700&family=M+PLUS+Rounded+1c:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a0a0a;
+  --paper: #fdf6ec;
+  --washi: #f5e6c8;
+  --vermillion: #c0392b;
+  --gold: #c9a84c;
+  --sakura: #e8a0b4;
+  --moss: #5a7a5a;
+  --indigo: #2c3e6e;
+  --mist: rgba(253,246,236,0.85);
+  --shadow: 0 4px 24px rgba(26,10,10,0.13);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'M PLUS Rounded 1c', 'Noto Serif JP', sans-serif;
+  background: var(--ink);
+  color: var(--ink);
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND */
+.bg-pattern {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, #2d0a0a 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 80%, #0a1a2d 0%, transparent 60%),
+    #1a0a0a;
+}
+.bg-pattern::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a84c' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* HEADER */
+.header {
+  position: relative; z-index: 10;
+  text-align: center;
+  padding: 40px 20px 20px;
+}
+.header-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.4);
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.header h1 {
+  font-family: 'Zen Old Mincho', serif;
+  font-size: clamp(28px, 7vw, 52px);
+  color: var(--paper);
+  line-height: 1.1;
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+.header h1 span { color: var(--gold); }
+.header .subtitle {
+  color: rgba(253,246,236,0.5);
+  font-size: 13px;
+  letter-spacing: 2px;
+  font-weight: 300;
+}
+
+/* SEAL DECORATION */
+.seal {
+  display: inline-block;
+  width: 50px; height: 50px;
+  border: 2px solid var(--vermillion);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Zen Old Mincho', serif;
+  font-size: 18px;
+  color: var(--vermillion);
+  margin: 16px auto 8px;
+  transform: rotate(-5deg);
+  letter-spacing: 0;
+}
+
+/* DAY TABS */
+.day-tabs {
+  position: relative; z-index: 10;
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  padding: 8px 20px 16px;
+  scrollbar-width: none;
+}
+.day-tabs::-webkit-scrollbar { display: none; }
+.day-tab {
+  flex-shrink: 0;
+  padding: 8px 18px;
+  border-radius: 24px;
+  border: 1px solid rgba(201,168,76,0.3);
+  background: transparent;
+  color: rgba(253,246,236,0.6);
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+.day-tab.active, .day-tab:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* CONTENT AREA */
+.content {
+  position: relative; z-index: 10;
+  padding: 0 16px 100px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* DAY SECTION */
+.day-section { display: none; animation: fadeIn 0.4s ease; }
+.day-section.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.day-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+.day-number {
+  font-family: 'Zen Old Mincho', serif;
+  font-size: 42px;
+  color: var(--gold);
+  line-height: 1;
+  font-weight: 700;
+}
+.day-info h2 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 16px;
+  color: var(--paper);
+  margin-bottom: 2px;
+}
+.day-info p {
+  font-size: 12px;
+  color: rgba(253,246,236,0.45);
+  letter-spacing: 1px;
+}
+
+/* LOCATION CARD */
+.timeline { position: relative; }
+.timeline::before {
+  content: '';
+  position: absolute; left: 22px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.3) 10%, rgba(201,168,76,0.3) 90%, transparent);
+}
+
+.loc-card {
+  position: relative;
+  display: flex; gap: 16px;
+  margin-bottom: 14px;
+}
+.timeline-dot {
+  flex-shrink: 0;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 2px solid rgba(201,168,76,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  margin-top: 4px;
+  position: relative; z-index: 1;
+  transition: border-color 0.2s;
+}
+.loc-card:hover .timeline-dot { border-color: var(--gold); }
+
+.card-body {
+  flex: 1;
+  background: rgba(253,246,236,0.06);
+  border: 1px solid rgba(253,246,236,0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s;
+}
+.card-body:hover {
+  background: rgba(253,246,236,0.1);
+  border-color: rgba(201,168,76,0.25);
+}
+
+.card-top {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+  margin-bottom: 6px;
+}
+.card-name {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 15px;
+  color: var(--paper);
+  line-height: 1.4;
+  font-weight: 700;
+}
+.card-time {
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: rgba(201,168,76,0.12);
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-top: 1px;
+}
+
+.card-meta {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 6px;
+}
+.card-duration {
+  font-size: 11px;
+  color: rgba(253,246,236,0.4);
+  display: flex; align-items: center; gap: 4px;
+}
+.card-note {
+  font-size: 12px;
+  color: rgba(253,246,236,0.55);
+  line-height: 1.6;
+  border-left: 2px solid rgba(201,168,76,0.3);
+  padding-left: 10px;
+  margin-top: 8px;
+}
+
+/* MAP BUTTON */
+.map-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: var(--vermillion);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+.map-btn:hover { background: #e74c3c; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(192,57,43,0.4); }
+.map-btn svg { width: 13px; height: 13px; }
+
+.alt-map-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px;
+  margin-left: 8px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(201,168,76,0.4);
+  background: transparent;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+.alt-map-btn:hover { background: rgba(201,168,76,0.1); }
+
+/* HOTEL CARD */
+.loc-card.is-hotel .timeline-dot { border-color: var(--indigo); }
+.loc-card.is-hotel .card-body { background: rgba(44,62,110,0.15); border-color: rgba(44,62,110,0.3); }
+.loc-card.is-transport .timeline-dot { border-color: var(--moss); }
+
+/* BOTTOM NAV */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(26,10,10,0.92);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-top: 1px solid rgba(201,168,76,0.15);
+  display: flex;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-btn {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 10px 4px;
+  background: none; border: none;
+  cursor: pointer;
+  gap: 4px;
+  color: rgba(253,246,236,0.4);
+  font-size: 10px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+.nav-btn.active, .nav-btn:hover { color: var(--gold); }
+.nav-btn svg { width: 20px; height: 20px; }
+
+/* OVERVIEW MAP PANEL */
+.map-panel {
+  display: none;
+  padding: 16px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.map-panel.active { display: block; animation: fadeIn 0.4s ease; }
+
+.map-embed-grid {
+  display: grid;
+  gap: 12px;
+}
+.map-area-card {
+  background: rgba(253,246,236,0.06);
+  border: 1px solid rgba(253,246,236,0.1);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.map-area-header {
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.map-area-header h3 {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 16px;
+  color: var(--paper);
+}
+.map-area-header span {
+  font-size: 11px;
+  color: rgba(253,246,236,0.4);
+}
+
+.map-links-grid {
+  padding: 0 16px 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.mini-loc-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px;
+  background: rgba(253,246,236,0.04);
+  border: 1px solid rgba(253,246,236,0.06);
+  border-radius: 10px;
+  text-decoration: none;
+  color: rgba(253,246,236,0.7);
+  font-size: 12px;
+  transition: all 0.2s;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  line-height: 1.3;
+}
+.mini-loc-link:hover { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.25); color: var(--paper); }
+.mini-loc-link .icon { font-size: 16px; flex-shrink: 0; }
+
+/* INFO PANEL */
+.info-panel {
+  display: none;
+  padding: 16px;
+  max-width: 700px; margin: 0 auto;
+}
+.info-panel.active { display: block; animation: fadeIn 0.4s ease; }
+.info-card {
+  background: rgba(253,246,236,0.06);
+  border: 1px solid rgba(253,246,236,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.info-card h3 {
+  font-family: 'Noto Serif JP', serif;
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.info-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(253,246,236,0.06); font-size: 13px; }
+.info-row:last-child { border-bottom: none; }
+.info-row .label { color: rgba(253,246,236,0.45); }
+.info-row .val { color: var(--paper); font-weight: 500; }
+
+/* PWA INSTALL */
+#install-btn {
+  display: none;
+  position: fixed; bottom: 90px; right: 16px; z-index: 200;
+  padding: 12px 18px;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  border-radius: 24px;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+  transition: all 0.2s;
+}
+#install-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,168,76,0.5); }
+
+/* SCROLL to top */
+.scroll-hint {
+  text-align: center;
+  padding: 20px;
+  color: rgba(253,246,236,0.2);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-pattern"></div>
+
+<!-- HEADER -->
+<header class="header" id="itinerary-header">
+  <div class="header-badge">旅のしおり · 2026</div>
+  <h1>日本<span>旅程</span></h1>
+  <p class="subtitle">熊本 · 宮崎 · 福岡　/ 7 Days</p>
+  <div class="seal">旅</div>
+</header>
+
+<!-- DAY TABS -->
+<div class="day-tabs" id="day-tabs">
+  <button class="day-tab active" onclick="showDay(1)">第１天</button>
+  <button class="day-tab" onclick="showDay(2)">第２天</button>
+  <button class="day-tab" onclick="showDay(3)">第３天</button>
+  <button class="day-tab" onclick="showDay(4)">第４天</button>
+  <button class="day-tab" onclick="showDay(5)">第５天</button>
+  <button class="day-tab" onclick="showDay(6)">第６天</button>
+  <button class="day-tab" onclick="showDay(7)">第７天</button>
+</div>
+
+<!-- CONTENT -->
+<main class="content" id="main-content">
+
+  <!-- DAY 1 -->
+  <div class="day-section active" id="day-1">
+    <div class="day-header">
+      <div class="day-number">01</div>
+      <div class="day-info">
+        <h2>抵達熊本</h2>
+        <p>2026 / 05 / 13（週三）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <!-- 熊本空港 -->
+      <div class="loc-card is-transport">
+        <div class="timeline-dot">✈️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本空港（阿蘇くまもと空港）</div>
+            <div class="card-time">11:42</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 15 分鐘</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本空港+阿蘇くまもと空港&query_place_id=ChIJd3y9Y2b_aGAR2FbRD_MkRok" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=熊本空港&sll=32.8369,130.8554" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <!-- Keika Ramen -->
+      <div class="loc-card">
+        <div class="timeline-dot">🍜</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Kumamoto Ramen Keika Honten</div>
+            <div class="card-time">11:57</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Kumamoto+Ramen+Keika+Honten" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=Kumamoto+Ramen+Keika+Honten&sll=32.8027,130.7074" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <!-- Sundrug -->
+      <div class="loc-card">
+        <div class="timeline-dot">💊</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Sundrug Kumamoto Kamitori</div>
+            <div class="card-time">13:04</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Sundrug+Kumamoto+Kamitori" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=Sundrug+Kumamoto&sll=32.8038,130.7079" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <!-- 熊本城下 -->
+      <div class="loc-card">
+        <div class="timeline-dot">🏯</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本（城下町商圈）</div>
+            <div class="card-time">14:31</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本城下町&sll=32.8060,130.7059" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=熊本城下町&sll=32.8060,130.7059" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <!-- 熊本鶴屋 -->
+      <div class="loc-card">
+        <div class="timeline-dot">🛍️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本鶴屋百貨店</div>
+            <div class="card-time">16:01</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本鶴屋百貨店" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=熊本鶴屋&sll=32.7971,130.7118" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-section" id="day-2">
+    <div class="day-header">
+      <div class="day-number">02</div>
+      <div class="day-info">
+        <h2>高千穗峽</h2>
+        <p>2026 / 05 / 14（週四）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">東橫INN 熊本站前（出發）</div>
+            <div class="card-time">07:30</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=東横イン熊本駅前" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=東横INN熊本駅前&sll=32.7893,130.7429" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🌊</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">高千穗峽</div>
+            <div class="card-time">09:30</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">河谷景點，坐擁從陡峭玄武岩懸崖傾瀉而下的瀑布，可搭乘出租船或沿著步道一覽美景。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=高千穂峡+宮崎県" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=高千穂峡&sll=32.7046,131.2994" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-section" id="day-3">
+    <div class="day-header">
+      <div class="day-number">03</div>
+      <div class="day-info">
+        <h2>阿蘇・神社探訪</h2>
+        <p>2026 / 05 / 15（週五）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">東橫INN 熊本站前（出發）</div>
+            <div class="card-time">06:20</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=東横イン熊本駅前" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card is-transport">
+        <div class="timeline-dot">🚂</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本駅</div>
+            <div class="card-time">06:24</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本駅" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card is-transport">
+        <div class="timeline-dot">🚂</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">高森駅</div>
+            <div class="card-time">08:49</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=高森駅+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=高森駅&sll=32.8292,131.0088" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">⛩️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">上色見熊野座神社</div>
+            <div class="card-time">09:58</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">景色優美的神社和天然石拱，可經由石燈籠林立的陡峭林間小徑抵達。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=上色見熊野座神社" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=上色見熊野座神社&sll=32.8203,131.0136" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">💧</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">高森湧水隧道公園</div>
+            <div class="card-time">12:29</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=高森湧水トンネル公園" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=高森湧水トンネル公園&sll=32.8371,131.0219" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🛍️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Shimotori 下通商店街</div>
+            <div class="card-time">14:58</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=下通商店街+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=下通商店街&sll=32.8030,130.7079" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day-section" id="day-4">
+    <div class="day-header">
+      <div class="day-number">04</div>
+      <div class="day-info">
+        <h2>熊本城・海床路</h2>
+        <p>2026 / 05 / 16（週六）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">東橫INN 熊本站前（出發）</div>
+            <div class="card-time">07:20</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=東横イン熊本駅前" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">☕</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">咖啡迴廊</div>
+            <div class="card-time">07:39</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=珈琲廊+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🏯</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本城</div>
+            <div class="card-time">09:06</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1.5 小時</div>
+          </div>
+          <div class="card-note">這座重建的城堡最初於西元1607年建成，坐落在山頂上，設有歷史博物館。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本城" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=熊本城&sll=32.8060,130.7059" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🏙️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本市公所免費展望台</div>
+            <div class="card-time">10:49</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本市役所展望ロビー" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=熊本市役所&sll=32.8047,130.7044" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🛍️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">上通商店街</div>
+            <div class="card-time">11:55</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 2 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=上通商店街+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=上通り商店街&sll=32.8050,130.7070" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🪙</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">3COINS</div>
+            <div class="card-time">13:57</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=3COINS+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🌊</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">長部田海床路</div>
+            <div class="card-time">16:04</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=長部田海床路+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=長部田海床路&sll=32.7258,130.5862" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🌿</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">住吉自然公園</div>
+            <div class="card-time">17:04</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1.5 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=住吉自然公園+熊本" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=住吉自然公園&sll=32.7264,130.5862" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 5 -->
+  <div class="day-section" id="day-5">
+    <div class="day-header">
+      <div class="day-number">05</div>
+      <div class="day-info">
+        <h2>移往福岡・博多</h2>
+        <p>2026 / 05 / 17（週日）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">東橫INN 熊本站前（退房）</div>
+            <div class="card-time">06:30</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=東横イン熊本駅前" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card is-transport">
+        <div class="timeline-dot">🚂</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">熊本駅</div>
+            <div class="card-time">07:34</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=熊本駅" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card is-transport">
+        <div class="timeline-dot">🚅</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">博多駅（抵達）</div>
+            <div class="card-time">09:18</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=博多駅" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=博多駅&sll=33.5904,130.4207" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🎮</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">SURUGA-YA Hakata Marui Store</div>
+            <div class="card-time">10:24</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=駿河屋+博多マルイ" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🍱</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Imonne Hakata</div>
+            <div class="card-time">11:25</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Imonne+Hakata+博多" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🛍️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">博多運河城</div>
+            <div class="card-time">12:35</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">大型購物中心，有名牌專賣店、名產商店、餐廳和噴泉表演。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=キャナルシティ博多" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=キャナルシティ博多&sll=33.5883,130.4143" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">📚</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">MANDARAKE 二手動漫玩具</div>
+            <div class="card-time">13:49</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=まんだらけ+博多" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=まんだらけ博多&sll=33.5888,130.4214" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🛍️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">福岡 PARCO</div>
+            <div class="card-time">14:57</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=福岡パルコ" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=福岡パルコ&sll=33.5895,130.4218" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🗼</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">福岡塔</div>
+            <div class="card-time">16:31</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">現代化的摩天大樓，設有觀景台，可欣賞到城市和海灣的全景，還有餐廳和休息室。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=福岡タワー" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=福岡タワー&sll=33.5983,130.3584" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🏬</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">LaLaport FUKUOKA</div>
+            <div class="card-time">18:16</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時（公車）</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=ららぽーと福岡" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=ららぽーと福岡&sll=33.6084,130.4398" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Hotel Hakata Place（入住）</div>
+            <div class="card-time">19:46</div>
+          </div>
+          <div class="card-note">簡約的海景飯店提供附小廚房的素雅客房和 Wi-Fi。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hakata+Place" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=Hotel+Hakata+Place&sll=33.5833,130.4107" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 6 -->
+  <div class="day-section" id="day-6">
+    <div class="day-header">
+      <div class="day-number">06</div>
+      <div class="day-info">
+        <h2>太宰府・神社巡禮</h2>
+        <p>2026 / 05 / 18（週一）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Hotel Hakata Place（出發）</div>
+            <div class="card-time">07:00</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hakata+Place" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card is-transport">
+        <div class="timeline-dot">🚂</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">西戶崎</div>
+            <div class="card-time">08:40</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=西戸崎駅+福岡" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=西戸崎駅&sll=33.6483,130.2497" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🚲</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">單車租借 シカシマサイクル</div>
+            <div class="card-time">10:43</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=シカシマサイクル+福岡" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🪙</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Seria Mina 天神店</div>
+            <div class="card-time">11:43</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=セリア+ミーナ天神" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🍗</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">ラーメンと鶏鉄板 チキンマン</div>
+            <div class="card-time">13:04</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=チキンマン+天神+福岡" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">⛩️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">太宰府天滿宮</div>
+            <div class="card-time">14:38</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">熱門的神社，供奉學習之神，擁有博物館和梅樹花園。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=太宰府天満宮" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=太宰府天満宮&sll=33.5121,130.5332" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🏛️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">九州國立博物館</div>
+            <div class="card-time">15:46</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">藝術與歷史博物館，有旋轉展覽和極具現代感的鏡像建築。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=九州国立博物館" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=九州国立博物館&sll=33.5109,130.5324" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">⛩️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">寶滿宮 竈門神社</div>
+            <div class="card-time">17:30</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">坐落在樹蔭間的靜謐神社，內有雕塑、步道和季節性的樹景。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=竈門神社+太宰府" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=竈門神社&sll=33.5234,130.5448" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Hotel Hakata Place（返回）</div>
+            <div class="card-time">19:30</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hakata+Place" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 7 -->
+  <div class="day-section" id="day-7">
+    <div class="day-header">
+      <div class="day-number">07</div>
+      <div class="day-info">
+        <h2>大濠公園・最終日</h2>
+        <p>2026 / 05 / 19（週二）</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="loc-card is-hotel">
+        <div class="timeline-dot">🏨</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">Hotel Hakata Place（出發）</div>
+            <div class="card-time">08:00</div>
+          </div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hakata+Place" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">🌊</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">大濠公園</div>
+            <div class="card-time">09:29</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">城市公園，有大型湖泊、海濱運動步道、租船處和咖啡廳。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=大濠公園+福岡" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=大濠公園&sll=33.5818,130.3702" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+      <div class="loc-card">
+        <div class="timeline-dot">⛩️</div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-name">櫛田神社</div>
+            <div class="card-time">10:49</div>
+          </div>
+          <div class="card-meta">
+            <div class="card-duration">⏱ 停留 1 小時</div>
+          </div>
+          <div class="card-note">建於西元757年的城市遺址，每年都會舉辦城市最盛大的節日——博多祇園山笠。</div>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=櫛田神社+福岡" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Google Maps
+          </a>
+          <a class="alt-map-btn" href="https://maps.apple.com/?q=櫛田神社&sll=33.5982,130.4175" target="_blank">🍎 Apple Maps</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">✦ 旅程終了 ✦</div>
+  </div>
+
+</main>
+
+<!-- MAP OVERVIEW PANEL -->
+<div class="map-panel" id="map-panel">
+  <div class="map-embed-grid">
+    <div class="map-area-card">
+      <div class="map-area-header">
+        <span style="font-size:24px">🏯</span>
+        <div>
+          <h3>熊本エリア</h3>
+          <span>第 1–4 天</span>
+        </div>
+      </div>
+      <div class="map-links-grid">
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=熊本空港" target="_blank"><span class="icon">✈️</span>熊本空港</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=熊本城" target="_blank"><span class="icon">🏯</span>熊本城</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=高千穂峡" target="_blank"><span class="icon">🌊</span>高千穗峽</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=上色見熊野座神社" target="_blank"><span class="icon">⛩️</span>上色見熊野座神社</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=高森湧水トンネル公園" target="_blank"><span class="icon">💧</span>高森湧水隧道</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=長部田海床路+熊本" target="_blank"><span class="icon">🌊</span>長部田海床路</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=住吉自然公園+熊本" target="_blank"><span class="icon">🌿</span>住吉自然公園</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=東横イン熊本駅前" target="_blank"><span class="icon">🏨</span>東橫INN</a>
+      </div>
+    </div>
+    <div class="map-area-card">
+      <div class="map-area-header">
+        <span style="font-size:24px">🗼</span>
+        <div>
+          <h3>福岡エリア</h3>
+          <span>第 5–7 天</span>
+        </div>
+      </div>
+      <div class="map-links-grid">
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=キャナルシティ博多" target="_blank"><span class="icon">🛍️</span>博多運河城</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=福岡タワー" target="_blank"><span class="icon">🗼</span>福岡塔</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=太宰府天満宮" target="_blank"><span class="icon">⛩️</span>太宰府天滿宮</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=九州国立博物館" target="_blank"><span class="icon">🏛️</span>九州國立博物館</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=竈門神社+太宰府" target="_blank"><span class="icon">⛩️</span>竈門神社</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=大濠公園+福岡" target="_blank"><span class="icon">🌊</span>大濠公園</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=櫛田神社+福岡" target="_blank"><span class="icon">⛩️</span>櫛田神社</a>
+        <a class="mini-loc-link" href="https://www.google.com/maps/search/?api=1&query=Hotel+Hakata+Place" target="_blank"><span class="icon">🏨</span>Hotel Hakata Place</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INFO PANEL -->
+<div class="info-panel" id="info-panel">
+  <div class="info-card">
+    <h3>旅程概要</h3>
+    <div class="info-row"><span class="label">出發日期</span><span class="val">2026 / 05 / 13</span></div>
+    <div class="info-row"><span class="label">返回日期</span><span class="val">2026 / 05 / 19</span></div>
+    <div class="info-row"><span class="label">天數</span><span class="val">7 天</span></div>
+    <div class="info-row"><span class="label">地點數量</span><span class="val">44 個景點</span></div>
+    <div class="info-row"><span class="label">主要城市</span><span class="val">熊本 · 宮崎 · 福岡</span></div>
+  </div>
+  <div class="info-card">
+    <h3>使用說明</h3>
+    <div class="info-row"><span class="label">🗺 Google Maps</span><span class="val" style="font-size:11px">點擊紅色按鈕開啟導航</span></div>
+    <div class="info-row"><span class="label">🍎 Apple Maps</span><span class="val" style="font-size:11px">iOS 裝置推薦使用</span></div>
+    <div class="info-row"><span class="label">📱 離線使用</span><span class="val" style="font-size:11px">安裝至主畫面可離線瀏覽</span></div>
+  </div>
+</div>
+
+<!-- PWA INSTALL BUTTON -->
+<button id="install-btn">📲 加入主畫面</button>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="nav-itinerary" onclick="switchPanel('itinerary')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    行程
+  </button>
+  <button class="nav-btn" id="nav-map" onclick="switchPanel('map')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    地圖
+  </button>
+  <button class="nav-btn" id="nav-info" onclick="switchPanel('info')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    資訊
+  </button>
+</nav>
+
+<script>
+// Panel switching
+function switchPanel(panel) {
+  const itinerary = document.getElementById('main-content');
+  const dayTabs = document.getElementById('day-tabs');
+  const header = document.getElementById('itinerary-header');
+  const mapPanel = document.getElementById('map-panel');
+  const infoPanel = document.getElementById('info-panel');
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('nav-' + panel).classList.add('active');
+
+  if (panel === 'itinerary') {
+    itinerary.style.display = '';
+    dayTabs.style.display = '';
+    header.style.display = '';
+    mapPanel.classList.remove('active');
+    infoPanel.classList.remove('active');
+  } else if (panel === 'map') {
+    itinerary.style.display = 'none';
+    dayTabs.style.display = 'none';
+    header.style.display = 'none';
+    mapPanel.classList.add('active');
+    infoPanel.classList.remove('active');
+  } else if (panel === 'info') {
+    itinerary.style.display = 'none';
+    dayTabs.style.display = 'none';
+    header.style.display = 'none';
+    mapPanel.classList.remove('active');
+    infoPanel.classList.add('active');
+  }
+}
+
+// Day tabs
+function showDay(n) {
+  document.querySelectorAll('.day-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('day-' + n).classList.add('active');
+  document.querySelectorAll('.day-tab')[n - 1].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// PWA Install
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('install-btn').style.display = 'block';
+});
+document.getElementById('install-btn').addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') document.getElementById('install-btn').style.display = 'none';
+    deferredPrompt = null;
+  }
+});
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+</script>
+</body>
+</html>
