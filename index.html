@@ -329,7 +329,9 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* OVERVIEW MAP PANEL */
 .map-panel {
   display: none;
-  padding: 16px;
+  position: relative;
+  z-index: 10;
+  padding: 16px 16px 100px;
   max-width: 700px;
   margin: 0 auto;
 }
@@ -384,8 +386,11 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 /* INFO PANEL */
 .info-panel {
   display: none;
-  padding: 16px;
-  max-width: 700px; margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  padding: 16px 16px 100px;
+  max-width: 700px;
+  margin: 0 auto;
 }
 .info-panel.active { display: block; animation: fadeIn 0.4s ease; }
 .info-card {
@@ -1395,7 +1400,6 @@ a, button { touch-action: manipulation; -webkit-tap-highlight-color: transparent
 </nav>
 
 <script>
-// Panel switching
 function switchPanel(panel) {
   const itinerary = document.getElementById('main-content');
   const dayTabs = document.getElementById('day-tabs');
@@ -1406,25 +1410,23 @@ function switchPanel(panel) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('nav-' + panel).classList.add('active');
 
+  // Reset all
+  itinerary.style.display = 'none';
+  dayTabs.style.display = 'none';
+  header.style.display = 'none';
+  mapPanel.classList.remove('active');
+  infoPanel.classList.remove('active');
+
   if (panel === 'itinerary') {
     itinerary.style.display = '';
     dayTabs.style.display = '';
     header.style.display = '';
-    mapPanel.classList.remove('active');
-    infoPanel.classList.remove('active');
   } else if (panel === 'map') {
-    itinerary.style.display = 'none';
-    dayTabs.style.display = 'none';
-    header.style.display = 'none';
     mapPanel.classList.add('active');
-    infoPanel.classList.remove('active');
   } else if (panel === 'info') {
-    itinerary.style.display = 'none';
-    dayTabs.style.display = 'none';
-    header.style.display = 'none';
-    mapPanel.classList.remove('active');
     infoPanel.classList.add('active');
   }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Day tabs
