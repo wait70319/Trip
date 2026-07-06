@@ -1,7 +1,7 @@
 {
-  "name": "日本旅程 2026",
-  "short_name": "日本行程",
-  "description": "2026 日本旅行行程 - 熊本 × 宮崎 × 福岡",
+  "name": "鹿兒島旅程 2027",
+  "short_name": "鹿兒島行程",
+  "description": "2027 鹿兒島旅行行程 - 霧島 × 櫻島 × 指宿",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -9,24 +9,9 @@
   "theme_color": "#060d1c",
   "orientation": "portrait-primary",
   "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "icon-maskable.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "categories": ["travel", "navigation"],
   "lang": "zh-TW"
