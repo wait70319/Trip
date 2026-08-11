@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kagoshima-travel-v1';
+const CACHE_NAME = 'kagoshima-travel-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -22,14 +22,38 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+// 判斷是不是「頁面導覽」或 index.html 本身 —— 這些內容常更新，要優先問伺服器
+function isFreshContent(request) {
+  return request.mode === 'navigate' || request.url.endsWith('/index.html') || request.url.endsWith('/');
+}
+
 self.addEventListener('fetch', e => {
+  const req = e.request;
+
+  if (isFreshContent(req)) {
+    // Network-first：先試著拿最新版，失敗（離線）才退回快取
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          if (res && res.status === 200) {
+            const clone = res.clone();
+            caches.open(CACHE_NAME).then(c => c.put(req, clone));
+          }
+          return res;
+        })
+        .catch(() => caches.match(req).then(cached => cached || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // 其他靜態資源（icon、字體等）維持 cache-first，速度快、不常變
   e.respondWith(
-    caches.match(e.request).then(cached => {
+    caches.match(req).then(cached => {
       if (cached) return cached;
-      return fetch(e.request).then(res => {
-        if (res && res.status === 200 && e.request.method === 'GET') {
+      return fetch(req).then(res => {
+        if (res && res.status === 200 && req.method === 'GET') {
           const clone = res.clone();
-          caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+          caches.open(CACHE_NAME).then(c => c.put(req, clone));
         }
         return res;
       }).catch(() => caches.match('./index.html'));
